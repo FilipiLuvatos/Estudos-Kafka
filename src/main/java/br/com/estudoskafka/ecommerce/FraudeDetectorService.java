@@ -1,12 +1,10 @@
-package br.com.estudoskafka.ecommerce.service;
+package br.com.estudoskafka.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -17,7 +15,7 @@ public class FraudeDetectorService {
         var consumer = new KafkaConsumer<String, String>(properties());
         consumer.subscribe(Collections.singletonList("ECOMMERCE_NEW_ORDER"));
         while(true) {
-            var records = consumer.poll(Duration.ofMillis(100));
+            var records = consumer.poll(Duration.ofMillis(1000));
             if (records.isEmpty()) {
                 System.out.println("[RESGISTROS NÃO ENCONTRADOS]");
                 continue;
@@ -30,6 +28,12 @@ public class FraudeDetectorService {
                 System.out.println(record.partition());
                 System.out.println(record.offset());
                 Thread.sleep(5000);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    // ignoring
+                    e.printStackTrace();
+                }
                 System.out.println("[ORDER PROCESSED]");
             }
             Thread.sleep(15000);
