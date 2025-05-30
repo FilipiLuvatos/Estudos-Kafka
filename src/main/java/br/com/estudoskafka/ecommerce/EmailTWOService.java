@@ -2,14 +2,16 @@ package br.com.estudoskafka.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.Map;
+
 public class EmailTWOService {
     public static void main(String[] args) {
-
         var emailService = new EmailTWOService();
         try (var service = new KafkaService(EmailTWOService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
                 emailService::parse,
-                String.class)) {
+                String.class,
+                Map.of())) {
             service.run();
         }
     }
