@@ -1,8 +1,26 @@
 bin/zookeeper-server-start.sh config/zookeeper.properties
-bin/kafka-server-start.sh config/zookeeper.properties
+
+bin/kafka-server-start.sh config/server.properties
 
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
 
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic 
 
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic ECOMMERCE_NEW_ORDER --from-beginning
+
+bin/kafka-topics.sh --alter --bootstrap-server localhost:9092 --topic ECOMMERCE_NEW_ORDER --partitions 3
+
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe
+
+bin/kafka-consumer-groups.sh --all-groups --bootstrap-server localhost:9092 --describe
+
+
+----------------------------------------------------------------
+Rodando o docker
+
+cd C:\Estudos\Kafka_docker
+
+docker compose up -d
+
+
+docker compose down
